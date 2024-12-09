@@ -265,8 +265,13 @@ function distinct(arr) {
  *    createNDimensionalArray(4, 2) => [[[[0, 0], [0, 0]], [[0, 0], [0, 0]]], [[[0, 0], [0, 0]], [[0, 0], [0, 0]]]]
  *    createNDimensionalArray(1, 1) => [0]
  */
-function createNDimensionalArray(/* n, size */) {
-  throw new Error('Not implemented');
+function createNDimensionalArray(n, size) {
+  if (n === 1) {
+    return Array(size).fill(0);
+  }
+  return Array(size)
+    .fill(0)
+    .map(() => createNDimensionalArray(n - 1, size));
 }
 
 /**
@@ -363,8 +368,11 @@ function createChunks(arr, chunkSize) {
  *    generateOdds(2) => [ 1, 3 ]
  *    generateOdds(5) => [ 1, 3, 5, 7, 9 ]
  */
-function generateOdds(/* len */) {
-  throw new Error('Not implemented');
+function generateOdds(len) {
+  if (len === 0) {
+    return [];
+  }
+  return Array.from({ length: len }, (_, index) => 1 + index * 2);
 }
 
 /**
@@ -379,8 +387,8 @@ function generateOdds(/* len */) {
  *   getElementByIndices(['one','two','three'], [2]) => 'three'  (arr[2])
  *   getElementByIndices([[[ 1, 2, 3]]], [ 0, 0, 1 ]) => 2        (arr[0][0][1])
  */
-function getElementByIndices(/* arr, indices */) {
-  throw new Error('Not implemented');
+function getElementByIndices(arr, indices) {
+  return indices.reduce((array, value) => array[value], arr);
 }
 
 /**
@@ -395,8 +403,16 @@ function getElementByIndices(/* arr, indices */) {
  *  getFalsyValuesCount([ -1, 'false', null, 0 ]) => 2
  *  getFalsyValuesCount([ null, undefined, NaN, false, 0, '' ]) => 6
  */
-function getFalsyValuesCount(/* arr */) {
-  throw new Error('Not implemented');
+function getFalsyValuesCount(arr) {
+  if (arr.length === 0) {
+    return 0;
+  }
+  return arr.reduce((sum, value) => {
+    if (!value) {
+      return sum + 1;
+    }
+    return sum;
+  }, 0);
 }
 
 /**
@@ -417,8 +433,16 @@ function getFalsyValuesCount(/* arr */) {
  *                              [0,0,0,1,0],
  *                              [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-  throw new Error('Not implemented');
+function getIdentityMatrix(n) {
+  return Array.from({ length: n }, () => Array(n).fill(0)).map(
+    (array, indexOfArray) =>
+      array.map((value, indexOfValue) => {
+        if (indexOfArray === indexOfValue) {
+          return 1;
+        }
+        return value;
+      })
+  );
 }
 
 /**
